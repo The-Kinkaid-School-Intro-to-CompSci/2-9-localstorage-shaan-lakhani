@@ -11,6 +11,10 @@ function updateColor() {
     const body = document.querySelector(`body`);
     //changing the background color of the body using the values of the sliders
     body.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+
+    localStorage.setItem(`red`, red);
+    localStorage.setItem(`green`, green);
+    localStorage.setItem(`blue`, blue)
 }
 
 function makeColorSlidersWork() {
@@ -26,6 +30,9 @@ function makeColorSlidersWork() {
     }
 }
 
+
+``
+
 function changeLogo() {
     //getting the <select> element
     const logoSelector = document.querySelector(`#logo-selector`);
@@ -35,6 +42,8 @@ function changeLogo() {
     const logoImg = document.querySelector(`#logo`);
     //getting the image from the images folder
     logoImg.src = `./images/${logo}`;
+
+    localStorage.setItem(`logo`, logo); 
 }
 
 function makeLogoSelectWork() {
@@ -42,9 +51,28 @@ function makeLogoSelectWork() {
     const logoSelector = document.querySelector(`#logo-selector`);
     //adding an event listener to it
     logoSelector.addEventListener(`change`, changeLogo);
+    if(localStorage.getItem(`logo`)!== null) {
+        const logoImg = document.querySelector(`#logo`);
+        const logoFromLocalStorage = localStorage.getItem(`logo`);
+        logoImg.src = `./images${logoFromLocalStorage}`;
+        const logoSelector = document.querySelector(`#logo-selector`);
+        logoSelector.value = logoFromLocalStorage;
+
+
+    }
 }
 
 function setTheUsersName() {
+    let nameElement = document.querySelector(`userName`);
+
+    let name = null;
+    if(localStorage.getItem(`name`)!== null) {
+        name = localStorage.getItem(`name`);
+    }
+    name = prompt(`What is your name`);
+    nameElement.textContent = name;
+
+    localStorage.setItem(`name`, name);
 
 }
 /** Part 1: Helper functions end */
@@ -90,6 +118,8 @@ function makeLocalStorageWork() {
 }
 
 async function runProgram() {
+    console.log(localStorage);
+    setTheUsersName();
 
     //the functions below make the interactive elements work
     makeLogoSelectWork();
